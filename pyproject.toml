@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qqp"
+version = "0.1.0"
+description = "ETL pipeline for QQP data of Puebla."
+authors = [
+    {name="Jorge Carrasco"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
