@@ -1,6 +1,7 @@
 import pandas as pd
 import unicodedata
 import re
+from qqp.config.settings import csv_columns, text_columns
 
 def clean_text(text: str):
     # Decouple letters and accents
@@ -22,19 +23,7 @@ def clean_text(text: str):
 
 
 def clean_puebla_csv(puebla_csv_path: str) -> pd.DataFrame:
-    columns=[
-        "product", "presentation", "brand", "type", "category",
-        "price", "date", "chain", "line_of_business", "branch",
-        "address", "state", "municipality", "lat", "long"
-    ]
-
-    text_columns = [
-        "product", "presentation", "brand", "type", "category",
-        "chain", "line_of_business", "branch", "address",
-        "state", "municipality"
-    ]
-
-    df = pd.read_csv(puebla_csv_path, names=columns)
+    df = pd.read_csv(puebla_csv_path, names=csv_columns)
 
     for text_col in text_columns:
         df[text_col] = df[text_col].str.upper()

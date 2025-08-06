@@ -1,10 +1,11 @@
 import csv
 from tqdm import tqdm
 from io import StringIO
+from qqp.config.settings import default_encoding, alternative_encoding
 
 
 def init_clean_csv(puebla_csv_path):
-    with open(puebla_csv_path, "w", encoding="utf-8") as new_file:
+    with open(puebla_csv_path, "w", encoding=default_encoding) as new_file:
         pass
     return None
 
@@ -12,9 +13,9 @@ def init_clean_csv(puebla_csv_path):
 def decode_line(binary_line):
     line = ""
     try:
-        line = binary_line.decode("utf-8")
+        line = binary_line.decode(default_encoding)
     except ValueError:
-        line = binary_line.decode("cp850")
+        line = binary_line.decode(alternative_encoding)
     return line
 
 
@@ -36,7 +37,7 @@ def validate_row_length(row: list):
 
 
 def save_row(puebla_csv_path: str, row: list):
-    with open(puebla_csv_path, "a", encoding="utf-8") as new_file:
+    with open(puebla_csv_path, "a", encoding=default_encoding) as new_file:
         writer = csv.writer(new_file, delimiter=',', quotechar='"')
         writer.writerow(row)
     return None
