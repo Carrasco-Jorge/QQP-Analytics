@@ -1,6 +1,6 @@
 import pandas as pd
 from qqp.config.settings import store_columns, STAGING_CSV_DIR, default_encoding
-from qqp.io_utils import join_paths
+from qqp.os_utils import join_paths
 
 def get_unique_stores(df_puebla: pd.DataFrame):
     stores = df_puebla[store_columns].copy()
