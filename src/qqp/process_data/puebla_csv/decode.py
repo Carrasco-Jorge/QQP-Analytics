@@ -1,7 +1,8 @@
 import csv
 from tqdm import tqdm
 from io import StringIO
-from qqp.config.settings import default_encoding, alternative_encoding
+from qqp.config.settings import default_encoding, alternative_encoding, RAW_DATA_DIR
+from qqp.os_utils import join_paths
 
 
 def init_clean_csv(puebla_csv_path):
@@ -13,7 +14,11 @@ def init_clean_csv(puebla_csv_path):
 def decode_line(binary_line):
     line = ""
     try:
-        line = binary_line.decode(default_encoding)
+        line:str = binary_line.decode(default_encoding)
+        if "TORTILLER" in line:
+            print(binary_line)
+            with open(join_paths([RAW_DATA_DIR, "TORTILLERIAS.txt"]), "ab") as file:
+                file.write(binary_line)
     except ValueError:
         line = binary_line.decode(alternative_encoding)
     return line
@@ -45,6 +50,9 @@ def save_row(puebla_csv_path: str, row: list):
 
 def decode_puebla_csv(raw_csv_path: str, puebla_csv_path: str):
     init_clean_csv(puebla_csv_path)
+
+    with open(join_paths([RAW_DATA_DIR, "TORTILLERIAS.txt"]), "wb") as file:
+        pass
 
     with open(raw_csv_path, "rb") as file:
         for binary_line in tqdm(file.readlines()):

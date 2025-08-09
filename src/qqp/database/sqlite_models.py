@@ -5,23 +5,35 @@ class SQLiteTables:
     engine = sqlite_engine
     metadata = MetaData()
 
-    product_presentations = Table(
-        "product_preentations",
+    processed_files = Table(
+        "processed_files",
         metadata,
         Column("id", Integer, primary_key=True),
+        Column("name", String(45), nullable=False)
+    )
+
+    products = Table(
+        "products",
+        metadata,
+        Column("id", Integer, primary_key=True),
+        Column("category", String(45), nullable=False),
+        Column("type", String(45), nullable=False),
         Column("product", String(100), nullable=False),
-        Column("presentation", String(120), nullable=False),
+        Column("presentation", String(200), nullable=False),
+        Column("brand", String(50), nullable=False),
         Column("processed", Integer, nullable=False),
         Column("variant", String(45)),
         Column("unit", String(45)),
-        Column("quantity", Integer)
+        Column("quantity", Integer),
+        Column("std_unit", String(45)),
+        Column("std_quantity", Float)
     )
 
     pending_rows = Table(
         "pending_rows",
         metadata,
         Column("product", String(100), nullable=False),
-        Column("presentation", String(120), nullable=False),
+        Column("presentation", String(200), nullable=False),
         Column("brand", String(50), nullable=False),
         Column("type", String(45), nullable=False),
         Column("category", String(45), nullable=False),
@@ -30,34 +42,34 @@ class SQLiteTables:
         Column("chain", String(45), nullable=False),
         Column("line_of_business", String(50), nullable=False),
         Column("branch", String(100), nullable=False),
-        Column("address", String(120), nullable=False),
+        Column("address", String(300), nullable=False),
         Column("state", String(45), nullable=False),
         Column("municipality", String(45), nullable=False),
         Column("lat", Float, nullable=False),
         Column("long", Float, nullable=False)
     )
 
-    dim_products = Table(
-        "dim_products",
-        metadata,
-        Column("id", Integer, primary_key=True),
-        Column("category", String(45), nullable=False),
-        Column("type", String(45), nullable=False),
-        Column("product", String(100), nullable=False),
-        Column("variant", String(45), nullable=False),
-        Column("brand", String(50), nullable=False),
-        Column("std_unit", String(45), nullable=False),
-        Column("std_quantity", Float, nullable=False)
-    )
+    # dim_products = Table(
+    #     "dim_products",
+    #     metadata,
+    #     Column("id", Integer, primary_key=True),
+    #     Column("category", String(45), nullable=False),
+    #     Column("type", String(45), nullable=False),
+    #     Column("product", String(100), nullable=False),
+    #     Column("variant", String(45), nullable=False),
+    #     Column("brand", String(50), nullable=False),
+    #     Column("std_unit", String(45), nullable=False),
+    #     Column("std_quantity", Float, nullable=False)
+    # )
 
-    dim_stores = Table(
-        "dim_stores",
+    stores = Table(
+        "stores",
         metadata,
         Column("id", Integer, primary_key=True),
         Column("line_of_business", String(50), nullable=False),
         Column("chain", String(45), nullable=False),
         Column("branch", String(100), nullable=False),
-        Column("address", String(120), nullable=False),
+        Column("address", String(300), nullable=False),
         Column("lat", Float, nullable=False),
         Column("long", Float, nullable=False)
     )
@@ -66,8 +78,8 @@ class SQLiteTables:
         "fact_price",
         metadata,
         Column("date", Date, nullable=False),
-        Column("product_id", Integer, primary_key=True),
-        Column("store_id", Integer, primary_key=True),
+        Column("product_id", Integer, nullable=False),
+        Column("store_id", Integer, nullable=False),
         Column("std_price", Float, nullable=False)
     )
 

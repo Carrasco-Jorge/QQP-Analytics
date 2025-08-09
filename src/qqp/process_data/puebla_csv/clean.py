@@ -1,7 +1,8 @@
 import pandas as pd
 import unicodedata
 import re
-from qqp.config.settings import csv_columns, text_columns
+from qqp.config.settings import csv_columns
+from qqp.process_data.settings import text_columns
 
 def clean_text(text: str):
     # Decouple letters and accents
@@ -29,7 +30,6 @@ def clean_puebla_csv(puebla_csv_path: str) -> pd.DataFrame:
         df[text_col] = df[text_col].str.upper()
         df[text_col] = df[text_col].apply(clean_text)
 
-    print(df.shape)
-    print(df.head())
+    df["date"] = pd.to_datetime(df["date"], format="%d/%m/%Y")
 
     return df
